@@ -11,7 +11,7 @@ end_date <- 20180126
 
 # self cancel extract -----------------------------------------------------
 
-connSUN <- odbcConnect(dsn = 'Sunsysh', uid = 'CCFLMZA', pwd = 'SAB2012')
+connSUN <- odbcConnect(dsn = 'xxx', uid = 'xxx', pwd = 'xxxx')
 sba_selfcancels <- sqlQuery(connSUN, paste0("SELECT DISTINCT *
                             FROM SFBASLIB.SFSBACAN
                             Where 1=1
