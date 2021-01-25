@@ -8,8 +8,6 @@
 # set environment ---------------------------------------------------------
 
 library(rIA)
-set_env(clear_env = T, dir = "H:/Projects/MikeAbla/PostCall Surveys", extra_pkgs = c('xlsx'))
-
 
 # revise post call survey function to different table ---------------------
 
@@ -74,12 +72,9 @@ query_postcall2 <- function(bu, fiscal_period){
 
 fperiods <- c('FY17 P11')
   
-  #c('FY16 P03','FY16 P04','FY16 P05','FY16 P06','FY16 P07','FY16 P09', 'FY16 P10','FY16 P11','FY16 P12','FY17 P01','FY17 P02','FY17 P03','FY17 P04', 'FY17 P05')
-
 com.postcall.surveys <- query_postcall2(bu=c('com'),fiscal_period =  fperiods)
 sba.postcall.surveys <- query_postcall2(bu=c('sba'),fiscal_period =  fperiods)
 postcall.surveys <- rbind(com.postcall.surveys, sba.postcall.surveys)
-#save(postcall.surveys, file = "sba_com_postcall_surveys.Rdata")
 
 # associate data --------------------------------------------------------------
 
