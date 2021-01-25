@@ -1,10 +1,10 @@
-# Ted Contact Extract and merge with Cust Segment Data
+# Contact Extract and merge with Cust Segment Data
 #
 # 30 JAN 2018
 # by Mike Abla
 #
 # NOTES:
-# Ask is to pull 2 yrs of TED contact data and where SBA order is identified merge CDM data; 
+# Ask is to pull 2 yrs of contact data and where SBA order is identified merge CDM data; 
 # specifically, customer segment information.
 
 
@@ -12,8 +12,6 @@
 # set env -----------------------------------------------------------------
 
 library(rIA)
-set_env(dir = "H:/Projects/MikeAbla/_Ad-hoc Requests/Ted Contacts")
-
 
 # extract ted data --------------------------------------------------------
 
@@ -31,8 +29,6 @@ ted.query <- function(start_date,end_date){
                                     JOIN ticketing.dbo.conahd_ahdcall b ON a.ahdcallid=b.ahdcallid
                                     JOIN ticketing.dbo.conahd_dispositioncategory c ON b.dispositioncatid=c.dispositioncatid
                                     WHERE CAST(ahdcallcommentdate AS date) BETWEEN '",start_date,"' and '",end_date,"'
-                                    --AND ahdcalldispositionexplanation != ''
-                                    --AND ahdcallorderacctnumber != '' 
                                     ORDER BY ahdcallcommentdate"), stringsAsFactors = F)
   
   ted.x$sba_order_number <- str_replace_all(ted.x$ted_reference, c('#'='', '^chat\\s+2[0-9]+/'='', '^[0-9]+/'=''))
@@ -81,23 +77,10 @@ sba.cdm.cust.query <- function(){
                            prtflo_seg_cd as cust_type,
                            mstr_cust_num,
                            mstr_cust_nm,
-                           --cust_crte_tms,
-                           --frst_ord_tms,
-                           --last_ord_tms,
-                           --last_ord_day_cnt,
-                           --cust_reactvt_dt,
-                           --cust_reactvt_cnt,
-                           --cust_estb_seg_cd,
-                           --mkt_prc_ind,
-                           --src_contr_typ_nm,
-                           --acct_qlfycn_scr_dscr,
-                           --src_cust_stat_cd,
                            most_rcnt_mbrshp_typ_nm,
                            initl_mbrshp_prchs_dt
                            FROM	PRD_CONTR_DMV.D_CUST_MSTR_V
                            Where 1=1
-                           --AND  prtflo_seg_cd = 'Mid-Market'
-                           --AND src_cust_stat_cd = 'ACT'
                            AND mstr_cust_num <> 0", stringsAsFactors = F)
   cdm_cust_ext$last_update <- Sys.Date()
   odbcClose(connCDM)
